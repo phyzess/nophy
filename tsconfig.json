@@ -17,5 +17,8 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["./src/*.ts", "./src/**/*.ts"],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "lib"],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }

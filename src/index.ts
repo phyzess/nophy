@@ -1,5 +1,6 @@
 import { endpoints, fetchNotionGen } from './utils/fetch';
 import { parsePageId, formatPageIdWithDash } from './utils/url';
+import TableCollection from './tableCollection';
 import { INophyOptions, IFetchNotion } from './types';
 
 class Nophy {
@@ -12,20 +13,6 @@ class Nophy {
 
     this.fetchNotion = fetchNotionGen(this.token);
   }
-
-  public fetchPage = async (pageIdOrUrl: string, format: boolean = true) => {
-    const pageId = parsePageId(pageIdOrUrl);
-    const [collectionId, collectionViewId] = await this.fetchPageCollectionInfoById(pageId);
-    const collectionData = await this.fetchCollectionByIds([collectionId, collectionViewId]);
-    console.log('===Log Start===');
-    console.log(collectionData);
-    console.log('---Log End---');
-    if (format) {
-      return 1;
-    } else {
-      return 2;
-    }
-  };
 
   /**
    * @description 获取当前 token 用户下的所有页面
@@ -85,6 +72,14 @@ class Nophy {
       },
     });
     return collectionInfo;
+  };
+
+  public fetchPage = async (pageIdOrUrl: string) => {
+    const pageId = parsePageId(pageIdOrUrl);
+    const [collectionId, collectionViewId] = await this.fetchPageCollectionInfoById(pageId);
+    const collectionData = await this.fetchCollectionByIds([collectionId, collectionViewId]);
+
+    return new TableCollection(collectionId, collectionViewId, collectionData);
   };
 }
 

@@ -50,6 +50,14 @@ export interface ISchemaOption {
   value: string;
 }
 
+export interface ISchema {
+  [key: string]: {
+    name: string;
+    type: string;
+    options?: ISchemaOption[];
+  };
+}
+
 export interface INotionBlock {
   [key: string]: {
     role: string;
@@ -94,13 +102,7 @@ export interface INotionCollectionValue extends IBasalNotionCollectionValue {
   icon: string;
   alive: boolean;
   file_ids: TNotionHashId[];
-  schema: {
-    [key: string]: {
-      name: string;
-      type: string;
-      options?: ISchemaOption[];
-    };
-  };
+  schema: ISchema;
 }
 
 export interface INotionCollectionViewValue extends IBasalNotionCollectionValue {
@@ -134,6 +136,12 @@ export interface NotionResponse {
     collection_view: INotionCollectionView;
     [key: string]: any;
   };
+  result: {
+    type: string;
+    blockIds: TNotionHashId[];
+    aggregationResults: any[];
+    total: number;
+  };
   [key: string]: any;
 }
 
@@ -151,4 +159,9 @@ export interface IFetchNotion {
 }
 export interface IFetchNotionGen {
   (token: string): IFetchNotion;
+}
+
+export interface ITableCollection {
+  collectionId: TNotionHashId;
+  collectionViewId: TNotionHashId;
 }
