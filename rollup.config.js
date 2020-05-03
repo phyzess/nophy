@@ -1,7 +1,7 @@
 import path from 'path';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
-import packageJson from './package.json';
+import babel from '@rollup/plugin-babel';
+// import packageJson from './package.json';
 
 const extensions = ['.ts'];
 
@@ -12,7 +12,8 @@ const resolve = function (...args) {
 export default {
   input: 'src/index.ts',
   output: {
-    file: resolve('./', packageJson.main),
+    // file: resolve('./', packageJson.main),
+    file: './lib/nophy.js',
     name: 'nophy',
     format: 'umd',
   },
