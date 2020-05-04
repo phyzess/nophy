@@ -117,3 +117,4 @@ dist
 
 tests/*
 lib/*
+dist/*
