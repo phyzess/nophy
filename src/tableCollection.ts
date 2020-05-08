@@ -1,4 +1,12 @@
-import { TNotionHashId, INotionBlock, ISchema, NotionResponse } from './types';
+import {
+  TNotionHashId,
+  INotionBlock,
+  ISchema,
+  ITableRowProperties,
+  ITableRowBlock,
+  ISiteConfigTableRowData,
+  NotionResponse,
+} from './types';
 
 /**
  * 一个 table collection 的返回值 response 中：
@@ -41,11 +49,29 @@ export default class TableCollection {
     return this;
   }
 
-  public getRowData = () => {
-    return this.blockIds.map(blockId => this.getBlockData(blockId));
-  };
+  public getRowData = (): ISiteConfigTableRowData[] =>
+    this.blockIds
+      .map(blockId => this.getBlockData(blockId))
+      .filter(_ => !!_)
+      .map(({ id, properties }) => {
+        const props: any = {};
+        Object.values(properties).forEach(({ colLabel, colType, value }) => {
+          if (colType !== 'file') {
+            props[colLabel] = value[0];
+          } else {
+            props[colLabel] = {
+              name: value[0],
+              url: value[1][0][1],
+            };
+          }
+        });
+        return {
+          rowId: id,
+          ...props,
+        };
+      });
 
-  public getBlockData = (blockId: TNotionHashId) => {
+  public getBlockData = (blockId: TNotionHashId): ITableRowBlock => {
     const block = this.blocks[blockId];
     if (!!block) {
       const {
@@ -64,10 +90,15 @@ export default class TableCollection {
         ),
       };
     }
-    return undefined;
+    return {
+      id: 'null',
+      type: 'null',
+      primaryKey: 'null',
+      properties: {},
+    };
   };
 
-  public getPropertyValue = (propertyKey: string, propertyValues: any[]) => {
+  public getPropertyValue = (propertyKey: string, propertyValues: any[]): ITableRowProperties => {
     const propertySchema = this.schema[propertyKey];
     const { name, type } = propertySchema;
     let value;

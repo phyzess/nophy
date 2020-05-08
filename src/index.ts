@@ -3,6 +3,9 @@ import { parsePageId, formatPageIdWithDash } from './utils/url';
 import TableCollection from './tableCollection';
 import { INophyOptions, IFetchNotion } from './types';
 
+export { parseImageUrl } from './utils/serializer';
+export { ISiteConfigTableRowData } from './types';
+
 class Nophy {
   private token: string = '';
 

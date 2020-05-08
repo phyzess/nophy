@@ -165,3 +165,33 @@ export interface ITableCollection {
   collectionId: TNotionHashId;
   collectionViewId: TNotionHashId;
 }
+
+export interface ITableRowProperty {
+  colKey: string;
+  colLabel: string;
+  colType: string;
+  value: any;
+}
+
+export interface ITableRowProperties {
+  [key: string]: ITableRowProperty;
+}
+
+export interface ITableRowBlock {
+  id: TNotionHashId;
+  type: string;
+  primaryKey: string;
+  properties: ITableRowProperties;
+}
+
+export interface ISiteConfigTableRowData {
+  rowId: TNotionHashId;
+  type: string;
+  desc: string;
+  name: string;
+  value: any;
+  image: {
+    name: string;
+    url: string;
+  };
+}

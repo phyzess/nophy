@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "fetching notion data",
   "main": "src/index.ts",
-  "types": "lib/nophy.d.ts",
   "scripts": {
     "build": "rimraf lib/* && rollup -c && tsc",
     "test": "node ./tests/nophy.test.ts",
