@@ -51,8 +51,8 @@ export default class TableCollection {
 
   public getRowData = (): ISiteConfigTableRowData[] =>
     this.blockIds
-      .map(blockId => this.getBlockData(blockId))
-      .filter(_ => !!_)
+      .map(this.getBlockData)
+      .filter(_ => !!_ && !!_.id)
       .map(({ id, properties }) => {
         const props: any = {};
         Object.values(properties).forEach(({ colLabel, colType, value }) => {
@@ -73,7 +73,7 @@ export default class TableCollection {
 
   public getBlockData = (blockId: TNotionHashId): ITableRowBlock => {
     const block = this.blocks[blockId];
-    if (!!block) {
+    if (!!block && !!block.value.properties) {
       const {
         value: { id, type, properties },
       } = block;
@@ -91,9 +91,9 @@ export default class TableCollection {
       };
     }
     return {
-      id: 'null',
-      type: 'null',
-      primaryKey: 'null',
+      id: undefined,
+      type: undefined,
+      primaryKey: undefined,
       properties: {},
     };
   };

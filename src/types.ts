@@ -178,9 +178,9 @@ export interface ITableRowProperties {
 }
 
 export interface ITableRowBlock {
-  id: TNotionHashId;
-  type: string;
-  primaryKey: string;
+  id?: TNotionHashId;
+  type?: string;
+  primaryKey?: string;
   properties: ITableRowProperties;
 }
 
