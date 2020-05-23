@@ -181,6 +181,9 @@ export interface ITableRowBlock {
   id?: TNotionHashId;
   type?: string;
   primaryKey?: string;
+  content?: TNotionHashId[];
+  created_time?: string;
+  last_edited_time?: string;
   properties: ITableRowProperties;
 }
 

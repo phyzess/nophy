@@ -23,6 +23,7 @@ import {
 
 export default class TableCollection {
   //  notion 服务器返回的原始数据
+  public originCollection: NotionResponse;
   public collectionId = '';
   public collectionViewId = '';
   // 当前 collectionID 下的 value
@@ -37,6 +38,7 @@ export default class TableCollection {
   public blocks: INotionBlock = {};
 
   constructor(collectionId: TNotionHashId, collectionViewId: TNotionHashId, collectionResponse: NotionResponse) {
+    this.originCollection = collectionResponse;
     this.collectionId = collectionId;
     this.collectionViewId = collectionViewId;
     this.collectionValue = collectionResponse.recordMap.collection[collectionId].value;
@@ -53,21 +55,25 @@ export default class TableCollection {
     this.blockIds
       .map(this.getBlockData)
       .filter(_ => !!_ && !!_.id)
-      .map(({ id, properties }) => {
+      .map(({ id, properties, ...restRowData }) => {
         const props: any = {};
         Object.values(properties).forEach(({ colLabel, colType, value }) => {
-          if (colType !== 'file') {
-            props[colLabel] = value[0];
-          } else {
-            props[colLabel] = {
-              name: value[0],
-              url: value[1][0][1],
-            };
+          switch (colType) {
+            case 'file':
+              props[colLabel] = {
+                name: value[0],
+                url: value[1][0][1],
+              };
+              break;
+            default:
+              props[colLabel] = value[0];
+              break;
           }
         });
         return {
           rowId: id,
           ...props,
+          ...restRowData,
         };
       });
 
@@ -75,7 +81,7 @@ export default class TableCollection {
     const block = this.blocks[blockId];
     if (!!block && !!block.value.properties) {
       const {
-        value: { id, type, properties },
+        value: { id, type, properties, ...restBlockData },
       } = block;
       return {
         id,
@@ -88,6 +94,7 @@ export default class TableCollection {
           }),
           {}
         ),
+        ...restBlockData,
       };
     }
     return {
@@ -100,6 +107,14 @@ export default class TableCollection {
 
   public getPropertyValue = (propertyKey: string, propertyValues: any[]): ITableRowProperties => {
     const propertySchema = this.schema[propertyKey];
+    /**
+     * Notion 中删除 table 列，会在 schema 中删除列信息，但是 row 信息中的对应数据其实没有删掉
+     * 所以这里需要进行空值判断
+     */
+    if (!propertySchema) {
+      return {};
+    }
+
     const { name, type } = propertySchema;
     let value;
     switch (type) {
@@ -116,9 +131,13 @@ export default class TableCollection {
             ]);
           }
         }, []);
+      case 'date':
+        value = [propertyValues[0][1][0][1]['start_date']];
+        break;
       default:
         value = propertyValues[0];
     }
+
     return {
       [propertyKey]: {
         colKey: propertyKey,

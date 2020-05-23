@@ -2,15 +2,13 @@
  * @description 做个是否是 notion 页面 url 的简单判断
  * @param str
  */
-export const isNotionPageUrl = (pageId: string) =>
-  /^(https:\/\/)?www.notion.so/.test(pageId);
+export const isNotionPageUrl = (pageId: string) => /^(https:\/\/)?www.notion.so/.test(pageId);
 
 /**
  * @description 去除 pageId 中的破折号
  * @param {string} pageId
  */
-export const formatPageIdWithoutDash = (pageId: string) =>
-  pageId.replace('-', '');
+export const formatPageIdWithoutDash = (pageId: string) => pageId.replace(/-/g, '');
 
 /**
  *

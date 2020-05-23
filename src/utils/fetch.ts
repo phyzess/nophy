@@ -25,7 +25,7 @@ export const fetchNotionGen: IFetchNotionGen = token => {
     cookie,
   };
 
-  const basalBody = {
+  const defaultBody = {
     limit: 50,
     cursor: { stack: [] },
     chunkNumber: 0,
@@ -37,8 +37,8 @@ export const fetchNotionGen: IFetchNotionGen = token => {
       const fetchResult = await nodeFetch(`${NOTION_BASE_URL}${endpoint}`, {
         headers,
         body: JSON.stringify({
+          ...defaultBody,
           ...body,
-          ...basalBody,
         }),
         method: 'POST',
       });

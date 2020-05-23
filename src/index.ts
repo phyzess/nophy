@@ -31,10 +31,22 @@ class Nophy {
    * @memberof Nophy
    */
   public fetchPageInfoById = async (pageId: string) => {
+    const formattedPageId = formatPageIdWithDash(pageId);
     const pageInfo = await this.fetchNotion({
       endpoint: endpoints.loadPageChunk,
       body: {
-        pageId: formatPageIdWithDash(pageId),
+        pageId: formattedPageId,
+        cursor: {
+          stack: [
+            [
+              {
+                id: formattedPageId,
+                index: 0,
+                table: 'block',
+              },
+            ],
+          ],
+        },
       },
     });
     return pageInfo;
