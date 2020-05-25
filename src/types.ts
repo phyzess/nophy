@@ -78,8 +78,8 @@ export interface INotionBlock {
       created_by_id: TNotionHashId;
       last_edited_by_table: string;
       last_edited_by_id: TNotionHashId;
+      content: TNotionHashId[];
       file_ids?: TNotionHashId[];
-      content?: TNotionHashId[];
       format?: {
         page_icon: string;
         page_cover: string;
@@ -187,7 +187,7 @@ export interface ITableRowBlock {
   properties: ITableRowProperties;
 }
 
-export interface ISiteConfigTableRowData {
+export interface ITableRowData {
   rowId: TNotionHashId;
   type: string;
   desc: string;
@@ -197,4 +197,5 @@ export interface ISiteConfigTableRowData {
     name: string;
     url: string;
   };
+  content: TNotionHashId[];
 }

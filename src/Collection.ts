@@ -4,7 +4,7 @@ import {
   ISchema,
   ITableRowProperties,
   ITableRowBlock,
-  ISiteConfigTableRowData,
+  ITableRowData,
   NotionResponse,
 } from './types';
 
@@ -36,8 +36,15 @@ export default class TableCollection {
   public blockIds: TNotionHashId[] = [];
   // table rows 数据，key-value 结构
   public blocks: INotionBlock = {};
+  // nophy 引用
+  public nophy: any = {};
 
-  constructor(collectionId: TNotionHashId, collectionViewId: TNotionHashId, collectionResponse: NotionResponse) {
+  constructor(
+    collectionId: TNotionHashId,
+    collectionViewId: TNotionHashId,
+    collectionResponse: NotionResponse,
+    nophy: any
+  ) {
     this.originCollection = collectionResponse;
     this.collectionId = collectionId;
     this.collectionViewId = collectionViewId;
@@ -48,10 +55,12 @@ export default class TableCollection {
     this.schema = collectionResponse.recordMap.collection[collectionId].value.schema;
     this.total = collectionResponse.result.total;
 
+    this.nophy = nophy;
+
     return this;
   }
 
-  public getRowData = (): ISiteConfigTableRowData[] =>
+  public getRowData = (): ITableRowData[] =>
     this.blockIds
       .map(this.getBlockData)
       .filter(_ => !!_ && !!_.id)
@@ -147,4 +156,9 @@ export default class TableCollection {
       },
     };
   };
+
+  /**
+   * loadMore
+   */
+  public loadMore = (id: TNotionHashId) => this.nophy.fetchPageInfoById(id);
 }

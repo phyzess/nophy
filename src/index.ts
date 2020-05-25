@@ -1,10 +1,10 @@
 import { endpoints, fetchNotionGen } from './utils/fetch';
 import { parsePageId, formatPageIdWithDash } from './utils/url';
-import TableCollection from './tableCollection';
-import { INophyOptions, IFetchNotion } from './types';
+import Collection from './Collection';
+import { INophyOptions, IFetchNotion, NotionResponse } from './types';
 
 export { parseImageUrl } from './utils/serializer';
-export { ISiteConfigTableRowData } from './types';
+export { ITableRowData } from './types';
 
 class Nophy {
   private token: string = '';
@@ -30,7 +30,7 @@ class Nophy {
    * @description 获取页面 pageId 下的所有信息
    * @memberof Nophy
    */
-  public fetchPageInfoById = async (pageId: string) => {
+  public fetchPageInfoById = async (pageId: string): Promise<NotionResponse> => {
     const formattedPageId = formatPageIdWithDash(pageId);
     const pageInfo = await this.fetchNotion({
       endpoint: endpoints.loadPageChunk,
@@ -94,7 +94,7 @@ class Nophy {
     const [collectionId, collectionViewId] = await this.fetchPageCollectionInfoById(pageId);
     const collectionData = await this.fetchCollectionByIds([collectionId, collectionViewId]);
 
-    return new TableCollection(collectionId, collectionViewId, collectionData);
+    return new Collection(collectionId, collectionViewId, collectionData, this);
   };
 }
 

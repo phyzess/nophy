@@ -10,6 +10,8 @@ export const endpoints = {
   loadPageChunk: '/loadPageChunk',
   // 获取 Notion 的集合组件数据，比如 table, list
   queryCollection: '/queryCollection',
+  // 获取某一个 hashId 的 record 数据
+  getRecordValues: '/getRecordValues',
 };
 
 export const fetchNotionGen: IFetchNotionGen = token => {
