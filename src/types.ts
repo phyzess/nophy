@@ -199,3 +199,20 @@ export interface ITableRowData {
   };
   content: TNotionHashId[];
 }
+
+export interface IPageSection {
+  type: TNotionBlockType;
+  version: number;
+  id: TNotionHashId;
+  properties: {
+    title: string[][];
+    [key: string]: any[];
+  };
+  format?: {
+    page_icon: string;
+    page_cover: string;
+    page_cover_position: number;
+    block_color: string;
+  };
+  children: IPageSection[];
+}

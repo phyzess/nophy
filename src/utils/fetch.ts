@@ -12,6 +12,8 @@ export const endpoints = {
   queryCollection: '/queryCollection',
   // 获取某一个 hashId 的 record 数据
   getRecordValues: '/getRecordValues',
+  // 批量获取某些 id Collection 的数据
+  syncRecordValues: '/syncRecordValues',
 };
 
 export const fetchNotionGen: IFetchNotionGen = token => {

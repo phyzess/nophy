@@ -1,3 +1,4 @@
+import getTree from './utils/getTree';
 import {
   TNotionHashId,
   INotionBlock,
@@ -158,7 +159,13 @@ export default class TableCollection {
   };
 
   /**
-   * loadMore
+   * @description loadPages 获取某一篇文章的内容，返回一个树形结构
    */
-  public loadMore = (id: TNotionHashId) => this.nophy.fetchPageInfoById(id);
+  public loadPages = () =>
+    Promise.all(
+      this.getRowData().map(async _ => {
+        const post = await this.nophy.fetchPageInfoById(_.rowId);
+        return getTree(post, _.content, this.nophy);
+      })
+    );
 }

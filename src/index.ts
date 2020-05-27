@@ -1,7 +1,7 @@
 import { endpoints, fetchNotionGen } from './utils/fetch';
 import { parsePageId, formatPageIdWithDash } from './utils/url';
 import Collection from './Collection';
-import { INophyOptions, IFetchNotion, NotionResponse } from './types';
+import { INophyOptions, IFetchNotion, NotionResponse, TNotionHashId } from './types';
 
 export { parseImageUrl } from './utils/serializer';
 export { ITableRowData } from './types';
@@ -87,6 +87,21 @@ class Nophy {
       },
     });
     return collectionInfo;
+  };
+
+  /**
+   * syncRecordValues
+   */
+  public syncRecordValues = async (recordIds: TNotionHashId[]): Promise<NotionResponse> => {
+    const recordValues = await this.fetchNotion({
+      endpoint: endpoints.syncRecordValues,
+      body: {
+        recordVersionMap: {
+          block: recordIds.reduce((acc, id) => ({ ...acc, [id]: -1 }), {}),
+        },
+      },
+    });
+    return recordValues;
   };
 
   public fetchPage = async (pageIdOrUrl: string) => {
