@@ -219,3 +219,7 @@ export interface IPageSection {
   };
   children: IPageSection[];
 }
+
+export interface IPage extends ITableRowData {
+  article: IPageSection[];
+}

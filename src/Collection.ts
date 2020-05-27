@@ -9,6 +9,7 @@ import {
   ITableRowData,
   NotionResponse,
   TRowFilter,
+  IPage,
 } from './types';
 
 /**
@@ -73,8 +74,8 @@ export default class TableCollection {
           switch (colType) {
             case 'file':
               props[colLabel] = {
-                name: value[0],
-                url: value[1][0][1],
+                name: value[0].name,
+                url: value[0].value,
               };
               break;
             default:
@@ -144,6 +145,7 @@ export default class TableCollection {
             ]);
           }
         }, []);
+        break;
       case 'date':
         value = [propertyValues[0][1][0][1]['start_date']];
         break;
@@ -162,9 +164,9 @@ export default class TableCollection {
   };
 
   /**
-   * @description loadPages 获取某一篇文章的内容，返回一个树形结构
+   * @description loadPages 获取文章的内容，返回一个树形结构
    */
-  public loadPages = (rowFilter: TRowFilter = () => true) =>
+  public loadPages = (rowFilter: TRowFilter = () => true): Promise<IPage[]> =>
     Promise.all(
       this.getRowData(rowFilter).map(async _ => {
         const allChunkNeeded = Math.ceil(_.content.length / 50);
@@ -179,7 +181,11 @@ export default class TableCollection {
           );
           post = postByChunkNumber.reduce((prev, cur) => merge(prev, cur), {});
         }
-        return getTree(post, _.content, this.nophy);
+        const article = await getTree(post, _.content, this.nophy);
+        return {
+          ..._,
+          article,
+        };
       })
     );
 }
