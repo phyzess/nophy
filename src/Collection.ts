@@ -1,3 +1,4 @@
+import { merge } from 'lodash';
 import getTree from './utils/getTree';
 import {
   TNotionHashId,
@@ -7,6 +8,7 @@ import {
   ITableRowBlock,
   ITableRowData,
   NotionResponse,
+  TRowFilter,
 } from './types';
 
 /**
@@ -61,7 +63,7 @@ export default class TableCollection {
     return this;
   }
 
-  public getRowData = (): ITableRowData[] =>
+  public getRowData = (rowFilter: TRowFilter = () => true): ITableRowData[] =>
     this.blockIds
       .map(this.getBlockData)
       .filter(_ => !!_ && !!_.id)
@@ -85,7 +87,8 @@ export default class TableCollection {
           ...props,
           ...restRowData,
         };
-      });
+      })
+      .filter(rowFilter);
 
   public getBlockData = (blockId: TNotionHashId): ITableRowBlock => {
     const block = this.blocks[blockId];
@@ -161,10 +164,21 @@ export default class TableCollection {
   /**
    * @description loadPages 获取某一篇文章的内容，返回一个树形结构
    */
-  public loadPages = () =>
+  public loadPages = (rowFilter: TRowFilter = () => true) =>
     Promise.all(
-      this.getRowData().map(async _ => {
-        const post = await this.nophy.fetchPageInfoById(_.rowId);
+      this.getRowData(rowFilter).map(async _ => {
+        const allChunkNeeded = Math.ceil(_.content.length / 50);
+        let post;
+        if (allChunkNeeded === 1) {
+          post = await this.nophy.fetchPageInfoById(_.rowId);
+        } else {
+          // 以 50 条为界，loadPageChunk 请求需要递增 allChunkNumber 以及 stack 中的 index（步长 50）
+          const emptyArr = new Array(allChunkNeeded).fill(0);
+          const postByChunkNumber = await Promise.all(
+            emptyArr.map(async (_zero, index) => await this.nophy.fetchPageInfoById(_.rowId, index + 1))
+          );
+          post = postByChunkNumber.reduce((prev, cur) => merge(prev, cur), {});
+        }
         return getTree(post, _.content, this.nophy);
       })
     );

@@ -7,6 +7,11 @@ const getTree = (page: NotionResponse, content: TNotionHashId[], nophy: any): Pr
   return Promise.all(
     content.map(async id => {
       const sec = page.recordMap.block[id];
+      if (!sec) {
+        return {
+          id: 'no_sec',
+        } as IPageSection;
+      }
       let children: IPageSection[] = [];
       /**
        * toggle-list 的子列表不在 loadPageChunk 的返回值中

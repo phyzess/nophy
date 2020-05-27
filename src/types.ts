@@ -198,7 +198,10 @@ export interface ITableRowData {
     url: string;
   };
   content: TNotionHashId[];
+  status?: 'completed' | 'draft';
 }
+
+export type TRowFilter = (row: ITableRowData) => boolean;
 
 export interface IPageSection {
   type: TNotionBlockType;

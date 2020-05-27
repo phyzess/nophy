@@ -30,18 +30,19 @@ class Nophy {
    * @description 获取页面 pageId 下的所有信息
    * @memberof Nophy
    */
-  public fetchPageInfoById = async (pageId: string): Promise<NotionResponse> => {
+  public fetchPageInfoById = async (pageId: string, chunkNumber: number = 1): Promise<NotionResponse> => {
     const formattedPageId = formatPageIdWithDash(pageId);
     const pageInfo = await this.fetchNotion({
       endpoint: endpoints.loadPageChunk,
       body: {
+        chunkNumber,
         pageId: formattedPageId,
         cursor: {
           stack: [
             [
               {
                 id: formattedPageId,
-                index: 0,
+                index: 50 * (chunkNumber - 1),
                 table: 'block',
               },
             ],
