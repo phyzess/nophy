@@ -84,9 +84,9 @@ export default class TableCollection {
           }
         });
         return {
-          rowId: id,
-          ...props,
           ...restRowData,
+          ...props,
+          rowId: id,
         };
       })
       .filter(rowFilter);

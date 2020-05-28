@@ -189,7 +189,7 @@ export interface ITableRowBlock {
 
 export interface ITableRowData {
   rowId: TNotionHashId;
-  type: string;
+  type: string; // notion 本身 table 的每一行都有一个 type，大概率为 page
   desc: string;
   name: string;
   value: any;
@@ -199,6 +199,7 @@ export interface ITableRowData {
   };
   content: TNotionHashId[];
   status?: 'completed' | 'draft';
+  [key: string]: any; // 用于兼容 notion 中自建的 table 的 rowKey
 }
 
 export type TRowFilter = (row: ITableRowData) => boolean;
