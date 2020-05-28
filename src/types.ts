@@ -221,6 +221,56 @@ export interface IPageSection {
   children: IPageSection[];
 }
 
+/**
+ * 只对这几种嵌入文本的样式进行解析
+ * 类似 comment 什么的以后再说
+ * 在获取文章中基本用不上
+ */
+export type TFormatType = 'b' | 'i' | 's' | 'a' | 'h';
+
+export enum EFormatType {
+  'b' = 'bold',
+  'i' = 'italic',
+  's' = 'lineThrough',
+  'a' = 'link',
+  'h' = 'fontOrBg',
+}
+
+export type TReadableFormatType = 'bold' | 'italic' | 'lineThrough' | 'link' | 'color' | 'backgroundColor';
+
+export enum EFormatToTagType {
+  'bold' = 'text',
+  'italic' = 'text',
+  'lineThrough' = 'text',
+  'link' = 'link',
+  'color' = 'text',
+  'backgroundColor' = 'text',
+}
+
+export interface IFlattenFormats {
+  type: TReadableFormatType;
+  url?: string;
+  color?: string;
+}
+
+export type TTagType = 'code' | 'text' | 'link';
+
+export interface IHtml {
+  // 文本内容
+  text: string;
+  tagType: TTagType;
+  // 除 code 类型以外的节点
+  format?: IFlattenFormats[];
+  // code 类型独有
+  language?: string;
+}
+
+export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format' | 'children'> {
+  html: IHtml[];
+}
+
+export type TArticleSectionGenerator = (properties: IPageSection['properties'], tagType?: TNotionBlockType) => IHtml[];
+
 export interface IPage extends ITableRowData {
-  article: IPageSection[];
+  article: IArticleSection[];
 }

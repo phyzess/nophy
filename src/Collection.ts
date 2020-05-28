@@ -1,5 +1,6 @@
 import { merge } from 'lodash';
 import getTree from './utils/getTree';
+import { serializeArticle } from './utils/serializer';
 import {
   TNotionHashId,
   INotionBlock,
@@ -182,9 +183,10 @@ export default class TableCollection {
           post = postByChunkNumber.reduce((prev, cur) => merge(prev, cur), {});
         }
         const article = await getTree(post, _.content, this.nophy);
+
         return {
           ..._,
-          article,
+          article: serializeArticle(article),
         };
       })
     );
