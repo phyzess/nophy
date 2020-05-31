@@ -253,23 +253,32 @@ export interface IFlattenFormats {
   color?: string;
 }
 
-export type TTagType = 'code' | 'text' | 'link';
+export type TTagType = 'code' | 'text' | 'link' | 'image';
 
 export interface IHtml {
   // 文本内容
-  text: string;
   tagType: TTagType;
+  content: string;
+  children?: Omit<IArticleSection, 'children'>[];
   // 除 code 类型以外的节点
   format?: IFlattenFormats[];
   // code 类型独有
   language?: string;
+  // image 类型独有
+  caption?: string;
 }
 
 export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format' | 'children'> {
   html: IHtml[];
 }
 
-export type TArticleSectionGenerator = (properties: IPageSection['properties'], tagType?: TNotionBlockType) => IHtml[];
+export interface IArticleSectionGenerator {
+  (properties: IPageSection['properties'], tagType?: TNotionBlockType, children?: IPageSection[]): IHtml[];
+}
+
+export interface ISerializeArticle {
+  (article: IPageSection[]): Omit<IArticleSection, 'children'>[];
+}
 
 export interface IPage extends ITableRowData {
   article: IArticleSection[];

@@ -1,11 +1,11 @@
 import {
-  IPageSection,
-  IArticleSection,
+  ISerializeArticle,
   TFormatType,
   IFlattenFormats,
-  TArticleSectionGenerator,
+  IArticleSectionGenerator,
   EFormatType,
   EFormatToTagType,
+  IHtml,
 } from '../types';
 
 export const NOTION_BASAL_URL = 'https://www.notion.so';
@@ -60,38 +60,51 @@ export const flatFormats = (formats: any): IFlattenFormats[] =>
     })
     .filter((_: any) => !!_);
 
-export const generateCodeSec: TArticleSectionGenerator = properties => [
+export const generateCodeSec: IArticleSectionGenerator = properties => [
   {
     tagType: 'code',
-    text: properties.title[0][0],
+    content: properties.title[0][0],
     language: properties.language[0][0],
   },
 ];
 
-export const generateNormalSec: TArticleSectionGenerator = properties =>
+export const generateImageSec: IArticleSectionGenerator = properties => [
+  {
+    tagType: 'image',
+    content: properties.source[0][0],
+    caption: properties.caption ? properties.caption[0][0] : null,
+  },
+];
+
+export const generateNormalSec: IArticleSectionGenerator = (properties, type, children) =>
   properties.title.map(prop => {
     const [text, formats] = prop;
+    let html = {} as IHtml;
     if (!formats || formats.length === 0) {
-      return {
+      html = {
         tagType: 'text',
-        text,
+        content: text,
       };
     } else {
       const format = flatFormats(formats);
       const isNoText = !!format.find(item => item.type === EFormatToTagType['link']);
-      return {
+      html = {
         tagType: isNoText ? EFormatToTagType['link'] : 'text',
-        text,
+        content: text,
         format,
       };
     }
+    if (!!children && children.length > 0) {
+      html.children = serializeArticle(children);
+    }
+    return html;
   });
 
-export const serializeArticle = (article: IPageSection[]): IArticleSection[] =>
+export const serializeArticle: ISerializeArticle = article =>
   article
     .filter(s => !!s.properties)
     .map(section => {
-      const { properties, type, ...restSectionProps } = section;
+      const { properties, type, children, ...restSectionProps } = section;
       const articleSection = { type, ...restSectionProps };
 
       let html;
@@ -99,8 +112,11 @@ export const serializeArticle = (article: IPageSection[]): IArticleSection[] =>
         case 'code':
           html = generateCodeSec(properties);
           break;
+        case 'image':
+          html = generateImageSec(properties);
+          break;
         default:
-          html = generateNormalSec(properties, type);
+          html = generateNormalSec(properties, type, children);
           break;
       }
 

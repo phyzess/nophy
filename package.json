@@ -1,12 +1,15 @@
 {
   "name": "@phyzess/nophy",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "keywords": [
+    "notion"
+  ],
   "description": "fetching notion data",
   "main": "src/index.ts",
   "scripts": {
     "build": "rimraf lib/* && rollup -c && tsc",
     "test": "node ./tests/nophy.test.ts",
-    "manual-test": "ts-node ./tests/manual.test.ts"
+    "manual-test": "rimraf tests/results/* && ts-node ./tests/manual.test.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
