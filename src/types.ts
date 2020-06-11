@@ -259,7 +259,7 @@ export interface IHtml {
   // 文本内容
   tagType: TTagType;
   content: string;
-  children?: Omit<IArticleSection, 'children'>[];
+  children?: IArticleSection[];
   // 除 code 类型以外的节点
   format?: IFlattenFormats[];
   // code 类型独有
@@ -268,7 +268,7 @@ export interface IHtml {
   caption?: string;
 }
 
-export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format' | 'children'> {
+export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format'> {
   html: IHtml[];
 }
 
