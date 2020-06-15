@@ -5,9 +5,13 @@
     "notion"
   ],
   "description": "fetching notion data",
-  "main": "./lib/index.js",
-  "type": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "type": "lib/index.d.ts",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
+    "prepublish": "yarn run build",
     "build": "rimraf lib/* && tsc",
     "test": "node ./tests/nophy.test.ts",
     "manual-test": "rimraf tests/results/* && ts-node ./tests/manual.test.ts"
