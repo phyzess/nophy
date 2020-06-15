@@ -76,7 +76,7 @@ export const generateImageSec: IArticleSectionGenerator = properties => [
   },
 ];
 
-export const generateNormalSec: IArticleSectionGenerator = (properties, type, children) =>
+export const generateNormalSec: IArticleSectionGenerator = (properties, children) =>
   properties.title.map(prop => {
     const [text, formats] = prop;
     let html = {} as IHtml;
@@ -116,7 +116,7 @@ export const serializeArticle: ISerializeArticle = article =>
           html = generateImageSec(properties);
           break;
         default:
-          html = generateNormalSec(properties, type, children);
+          html = generateNormalSec(properties, children);
           break;
       }
 

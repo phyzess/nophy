@@ -8,29 +8,23 @@
   "main": "src/index.ts",
   "module": "src/index.ts",
   "scripts": {
-    "build": "rimraf lib/* && rollup -c && tsc",
+    "build": "rimraf lib/* && tsc",
     "test": "node ./tests/nophy.test.ts",
     "manual-test": "rimraf tests/results/* && ts-node ./tests/manual.test.ts"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-typescript": "^7.9.0",
-    "@rollup/plugin-babel": "^5.0.2",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-typescript": "^4.1.2",
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "@types/lodash": "^4.14.155",
     "@types/node-fetch": "^2.5.7",
     "regenerator-runtime": "^0.13.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.10.9",
-    "rollup-plugin-dts": "^1.4.7",
-    "ts-node": "^8.10.1",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.3"
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.153",
     "lodash": "^4.17.15",
     "node-fetch": "^2.6.0"
   },

@@ -273,7 +273,7 @@ export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' |
 }
 
 export interface IArticleSectionGenerator {
-  (properties: IPageSection['properties'], tagType?: TNotionBlockType, children?: IPageSection[]): IHtml[];
+  (properties: IPageSection['properties'], children?: IPageSection[]): IHtml[];
 }
 
 export interface ISerializeArticle {
