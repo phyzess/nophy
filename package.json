@@ -6,6 +6,7 @@
   ],
   "description": "fetching notion data",
   "main": "src/index.ts",
+  "module": "src/index.ts",
   "scripts": {
     "build": "rimraf lib/* && rollup -c && tsc",
     "test": "node ./tests/nophy.test.ts",
