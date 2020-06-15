@@ -5,8 +5,8 @@
     "notion"
   ],
   "description": "fetching notion data",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
+  "main": "./lib/index.js",
+  "type": "./lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib/* && tsc",
     "test": "node ./tests/nophy.test.ts",
