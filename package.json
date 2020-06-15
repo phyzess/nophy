@@ -11,7 +11,7 @@
     "lib/"
   ],
   "scripts": {
-    "prepublish": "yarn run build",
+    "prepublishOnly": "yarn run build",
     "build": "rimraf lib/* && tsc",
     "test": "node ./tests/nophy.test.ts",
     "manual-test": "rimraf tests/results/* && ts-node ./tests/manual.test.ts"
