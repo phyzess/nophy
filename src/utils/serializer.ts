@@ -51,6 +51,7 @@ export const flatFormats = (formats: any): IFlattenFormats[] =>
         case 'b':
         case 'i':
         case 's':
+        case 'c':
           return {
             type: EFormatType[format],
           };

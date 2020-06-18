@@ -226,7 +226,7 @@ export interface IPageSection {
  * 类似 comment 什么的以后再说
  * 在获取文章中基本用不上
  */
-export type TFormatType = 'b' | 'i' | 's' | 'a' | 'h';
+export type TFormatType = 'b' | 'i' | 's' | 'a' | 'h' | 'c';
 
 export enum EFormatType {
   'b' = 'bold',
@@ -234,9 +234,17 @@ export enum EFormatType {
   's' = 'lineThrough',
   'a' = 'link',
   'h' = 'fontOrBg',
+  'c' = 'inlineCode',
 }
 
-export type TReadableFormatType = 'bold' | 'italic' | 'lineThrough' | 'link' | 'color' | 'backgroundColor';
+export type TReadableFormatType =
+  | 'bold'
+  | 'italic'
+  | 'lineThrough'
+  | 'link'
+  | 'color'
+  | 'backgroundColor'
+  | 'inlineCode';
 
 export enum EFormatToTagType {
   'bold' = 'text',
@@ -245,6 +253,7 @@ export enum EFormatToTagType {
   'link' = 'link',
   'color' = 'text',
   'backgroundColor' = 'text',
+  'inlineCode' = 'inlineCode',
 }
 
 export interface IFlattenFormats {
