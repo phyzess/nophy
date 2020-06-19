@@ -277,6 +277,8 @@ export interface IHtml {
   language?: string;
   // image 类型独有
   caption?: string;
+  // to_do 类型独有
+  checked?: boolean;
 }
 
 export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format'> {

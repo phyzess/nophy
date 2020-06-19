@@ -101,6 +101,12 @@ export const generateNormalSec: IArticleSectionGenerator = (properties, children
     return html;
   });
 
+export const generateToDolSec: IArticleSectionGenerator = (properties, children) =>
+  generateNormalSec(properties, children).map(html => ({
+    ...html,
+    checked: properties.checked && properties.checked[0][0].toUpperCase() === 'YES',
+  }));
+
 export const serializeArticle: ISerializeArticle = article =>
   article
     .filter(s => !!s.properties)
@@ -115,6 +121,9 @@ export const serializeArticle: ISerializeArticle = article =>
           break;
         case 'image':
           html = generateImageSec(properties);
+          break;
+        case 'to_do':
+          html = generateToDolSec(properties, children);
           break;
         default:
           html = generateNormalSec(properties, children);
