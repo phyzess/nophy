@@ -187,6 +187,8 @@ export interface ITableRowBlock {
   properties: ITableRowProperties;
 }
 
+export type TArticleStatus = 'completed' | 'draft';
+
 export interface ITableRowData {
   rowId: TNotionHashId;
   type: string; // notion 本身 table 的每一行都有一个 type，大概率为 page
@@ -198,7 +200,7 @@ export interface ITableRowData {
     url: string;
   };
   content: TNotionHashId[];
-  status?: 'completed' | 'draft';
+  status?: TArticleStatus;
   [key: string]: any; // 用于兼容 notion 中自建的 table 的 rowKey
 }
 

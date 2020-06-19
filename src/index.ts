@@ -4,7 +4,17 @@ import Collection from './Collection';
 import { INophyOptions, IFetchNotion, NotionResponse, TNotionHashId } from './types';
 
 export { parseImageUrl } from './utils/serializer';
-export { IPage, IArticleSection, ITableRowData } from './types';
+export {
+  TArticleStatus,
+  ITableRowData,
+  EFormatType,
+  TReadableFormatType,
+  IFlattenFormats,
+  TTagType,
+  IHtml,
+  IArticleSection,
+  IPage,
+} from './types';
 
 class Nophy {
   private token: string = '';
