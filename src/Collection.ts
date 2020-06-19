@@ -170,15 +170,15 @@ export default class TableCollection {
   public loadPages = (rowFilter: TRowFilter = () => true): Promise<IPage[]> =>
     Promise.all(
       this.getRowData(rowFilter).map(async _ => {
-        const allChunkNeeded = Math.ceil(_.content.length / 50);
+        const allChunkNeeded = Math.ceil(_.content.length / 45);
         let post;
         if (allChunkNeeded === 1) {
           post = await this.nophy.fetchPageInfoById(_.rowId);
         } else {
-          // 以 50 条为界，loadPageChunk 请求需要递增 allChunkNumber 以及 stack 中的 index（步长 50）
+          // 以 45 条为界，loadPageChunk 请求需要递增 allChunkNumber 以及 stack 中的 index（步长 50）
           const emptyArr = new Array(allChunkNeeded).fill(0);
           const postByChunkNumber = await Promise.all(
-            emptyArr.map(async (_zero, index) => await this.nophy.fetchPageInfoById(_.rowId, index + 1))
+            emptyArr.map(async (_zero, index) => await this.nophy.fetchPageInfoById(_.rowId, index))
           );
           post = postByChunkNumber.reduce((prev, cur) => merge(prev, cur), {});
         }
