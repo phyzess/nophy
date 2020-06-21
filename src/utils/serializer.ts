@@ -77,6 +77,13 @@ export const generateImageSec: IArticleSectionGenerator = properties => [
   },
 ];
 
+export const generateDividerSec: IArticleSectionGenerator = () => [
+  {
+    tagType: 'divider',
+    content: 'divider',
+  },
+];
+
 export const generateNormalSec: IArticleSectionGenerator = (properties, children) =>
   properties.title.map(prop => {
     const [text, formats] = prop;
@@ -109,7 +116,7 @@ export const generateToDolSec: IArticleSectionGenerator = (properties, children)
 
 export const serializeArticle: ISerializeArticle = article =>
   article
-    .filter(s => !!s.properties)
+    .filter(s => !!s.properties || s.type === 'divider')
     .map(section => {
       const { properties, type, children, ...restSectionProps } = section;
       const articleSection = { type, ...restSectionProps };
@@ -124,6 +131,9 @@ export const serializeArticle: ISerializeArticle = article =>
           break;
         case 'to_do':
           html = generateToDolSec(properties, children);
+          break;
+        case 'divider':
+          html = generateDividerSec(properties);
           break;
         default:
           html = generateNormalSec(properties, children);

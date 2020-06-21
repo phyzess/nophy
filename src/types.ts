@@ -264,7 +264,7 @@ export interface IFlattenFormats {
   color?: string;
 }
 
-export type TTagType = 'code' | 'text' | 'link' | 'image';
+export type TTagType = 'code' | 'text' | 'link' | 'image' | 'divider';
 
 export interface IHtml {
   // 文本内容
