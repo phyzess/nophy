@@ -228,7 +228,7 @@ export interface IPageSection {
  * 类似 comment 什么的以后再说
  * 在获取文章中基本用不上
  */
-export type TFormatType = 'b' | 'i' | 's' | 'a' | 'h' | 'c';
+export type TFormatType = 'b' | 'i' | 's' | 'a' | 'h' | 'c' | 'e';
 
 export enum EFormatType {
   'b' = 'bold',
@@ -237,6 +237,7 @@ export enum EFormatType {
   'a' = 'link',
   'h' = 'fontOrBg',
   'c' = 'inlineCode',
+  'e' = 'inlineEquation',
 }
 
 export type TReadableFormatType =
@@ -246,7 +247,8 @@ export type TReadableFormatType =
   | 'link'
   | 'color'
   | 'backgroundColor'
-  | 'inlineCode';
+  | 'inlineCode'
+  | 'inlineEquation';
 
 export enum EFormatToTagType {
   'bold' = 'text',
@@ -256,15 +258,20 @@ export enum EFormatToTagType {
   'color' = 'text',
   'backgroundColor' = 'text',
   'inlineCode' = 'inlineCode',
+  'inlineEquation' = 'inlineEquation',
 }
 
 export interface IFlattenFormats {
   type: TReadableFormatType;
+  // for link
   url?: string;
+  // for color & backgroundColor
   color?: string;
+  // for inlineEquation
+  equation?: string;
 }
 
-export type TTagType = 'code' | 'text' | 'link' | 'image' | 'divider';
+export type TTagType = 'code' | 'text' | 'link' | 'image' | 'divider' | 'inlineEquation';
 
 export interface IHtml {
   // 文本内容

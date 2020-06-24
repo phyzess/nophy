@@ -48,6 +48,11 @@ export const flatFormats = (formats: any): IFlattenFormats[] =>
             type: isBg ? 'backgroundColor' : 'color',
             color: addons.split('_')[0],
           };
+        case 'e':
+          return {
+            type: 'inlineEquation',
+            equation: addons,
+          };
         case 'b':
         case 'i':
         case 's':
@@ -60,6 +65,18 @@ export const flatFormats = (formats: any): IFlattenFormats[] =>
       }
     })
     .filter((_: any) => !!_);
+
+export const getHtmlTagType = (format: IFlattenFormats[]) => {
+  for (const { type } of format) {
+    if (type === EFormatToTagType['link']) {
+      return 'link';
+    }
+    if (type === EFormatToTagType['inlineEquation']) {
+      return 'inlineEquation';
+    }
+  }
+  return 'text';
+};
 
 export const generateCodeSec: IArticleSectionGenerator = properties => [
   {
@@ -95,10 +112,16 @@ export const generateNormalSec: IArticleSectionGenerator = (properties, children
       };
     } else {
       const format = flatFormats(formats);
-      const isNoText = !!format.find(item => item.type === EFormatToTagType['link']);
+      const equation = format.find(f => f.type === 'inlineEquation')?.equation || '';
+      const tagType = getHtmlTagType(format);
+      let content = text;
+      if (tagType === 'inlineEquation') {
+        content = equation;
+      }
+
       html = {
-        tagType: isNoText ? EFormatToTagType['link'] : 'text',
-        content: text,
+        tagType,
+        content,
         format,
       };
     }
