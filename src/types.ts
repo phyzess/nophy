@@ -1,5 +1,6 @@
 /**
  * notion block types
+ * @todo 似乎还有一个 column 类型，在 notion 中是用来标识一行分割成多列
  */
 export type TNotionBlockType =
   | 'page' // 页面组件
@@ -215,10 +216,18 @@ export interface IPageSection {
     [key: string]: any[];
   };
   format?: {
-    page_icon: string;
-    page_cover: string;
-    page_cover_position: number;
-    block_color: string;
+    block_color?: string;
+    block_aspect_ratio?: number;
+    block_full_width?: boolean;
+    block_height?: number;
+    block_page_width?: boolean;
+    block_preserve_scale?: boolean;
+    block_width?: number;
+    code_wrap?: boolean;
+    display_source?: string;
+    page_icon?: string;
+    page_cover?: string;
+    page_cover_position?: number;
   };
   children: IPageSection[];
 }
