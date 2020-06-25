@@ -101,6 +101,15 @@ export const generateDividerSec: IArticleSectionGenerator = () => [
   },
 ];
 
+export const generateBookmarkSec: IArticleSectionGenerator = properties => [
+  {
+    tagType: 'bookmark',
+    content: properties.title[0][0],
+    link: properties.link[0][0],
+    description: properties.description[0][0],
+  },
+];
+
 export const generateNormalSec: IArticleSectionGenerator = (properties, children) =>
   properties.title.map(prop => {
     const [text, formats] = prop;
@@ -157,6 +166,9 @@ export const serializeArticle: ISerializeArticle = article =>
           break;
         case 'divider':
           html = generateDividerSec(properties);
+          break;
+        case 'bookmark':
+          html = generateBookmarkSec(properties);
           break;
         default:
           html = generateNormalSec(properties, children);

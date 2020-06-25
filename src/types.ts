@@ -223,6 +223,8 @@ export interface IPageSection {
     block_page_width?: boolean;
     block_preserve_scale?: boolean;
     block_width?: number;
+    bookmark_cover?: string;
+    bookmark_icon?: string;
     code_wrap?: boolean;
     display_source?: string;
     page_icon?: string;
@@ -280,7 +282,7 @@ export interface IFlattenFormats {
   equation?: string;
 }
 
-export type TTagType = 'code' | 'text' | 'link' | 'image' | 'divider' | 'inlineEquation';
+export type TTagType = 'code' | 'text' | 'link' | 'image' | 'divider' | 'inlineEquation' | 'bookmark';
 
 export interface IHtml {
   // 文本内容
@@ -295,6 +297,9 @@ export interface IHtml {
   caption?: string;
   // to_do 类型独有
   checked?: boolean;
+  // bookmark 类型独有
+  link?: string;
+  description?: string;
 }
 
 export interface IArticleSection extends Pick<IPageSection, 'type' | 'version' | 'id' | 'format'> {
