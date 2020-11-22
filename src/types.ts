@@ -186,6 +186,7 @@ export interface ITableRowBlock {
   created_time?: string;
   last_edited_time?: string;
   properties: ITableRowProperties;
+  [key: string]: any;
 }
 
 export type TArticleStatus = 'completed' | 'draft';
@@ -199,6 +200,7 @@ export interface ITableRowData {
   image: {
     name: string;
     url: string;
+    block: ITableRowBlock;
   };
   content: TNotionHashId[];
   status?: TArticleStatus;

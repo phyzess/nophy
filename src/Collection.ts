@@ -69,7 +69,8 @@ export default class TableCollection {
     this.blockIds
       .map(this.getBlockData)
       .filter(_ => !!_ && !!_.id)
-      .map(({ id, properties, ...restRowData }) => {
+      .map(row => {
+        const { id, properties, ...restRowData } = row;
         const props: any = {};
         Object.values(properties).forEach(({ colLabel, colType, value }) => {
           switch (colType) {
@@ -77,6 +78,7 @@ export default class TableCollection {
               props[colLabel] = {
                 name: value[0].name,
                 url: value[0].value,
+                block: row,
               };
               break;
             default:

@@ -6,6 +6,7 @@ import {
   EFormatType,
   EFormatToTagType,
   IHtml,
+  ITableRowBlock,
 } from '../types';
 
 export const NOTION_BASAL_URL = 'https://www.notion.so';
@@ -15,7 +16,7 @@ export const NOTION_BASAL_URL = 'https://www.notion.so';
  * @param {string} url
  * @param {string} width
  */
-export const parseImageUrl = (url: string, width?: string): string => {
+export const parseImageUrl = (url: string, block?: ITableRowBlock, width?: string): string => {
   let parsedUrl;
   if (url.startsWith('https://s3')) {
     let [parsedOriginUrl] = url.split('?');
@@ -26,11 +27,19 @@ export const parseImageUrl = (url: string, width?: string): string => {
     parsedUrl = url;
   }
 
-  if (width) {
-    return `${parsedUrl}?width=${width}`;
-  } else {
-    return parsedUrl;
+  const image = new URL(parsedUrl);
+
+  if (block) {
+    const table = block.parent_table === 'collection' ? 'block' : block.parent_table;
+    image.searchParams.set('table', table);
+    image.searchParams.set('id', block.id as string);
+    image.searchParams.set('cache', 'v2');
+    if (width) {
+      image.searchParams.set('width', width as string);
+    }
   }
+
+  return image.toString();
 };
 
 export const flatFormats = (formats: any): IFlattenFormats[] =>

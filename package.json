@@ -14,23 +14,24 @@
     "prepublishOnly": "yarn run build",
     "build": "rimraf lib/* && tsc",
     "test": "node ./tests/nophy.test.ts",
-    "manual-test": "rimraf tests/results/* && ts-node ./tests/manual.test.ts"
+    "test:posts": "rimraf tests/results/* && ts-node ./tests/posts.test.ts",
+    "test:siteConfig": "rimraf tests/results/* && ts-node ./tests/siteConfig.test.ts"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.2",
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/preset-typescript": "^7.10.1",
-    "@types/lodash": "^4.14.155",
+    "@babel/core": "^7.12.7",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/lodash": "^4.14.165",
     "@types/node-fetch": "^2.5.7",
-    "regenerator-runtime": "^0.13.5",
+    "regenerator-runtime": "^0.13.7",
     "rimraf": "^3.0.2",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.5"
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
   },
   "dependencies": {
-    "lodash": "^4.17.15",
-    "node-fetch": "^2.6.0"
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1"
   },
   "author": "phyzess",
   "license": "MIT"
